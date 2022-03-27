@@ -9,7 +9,20 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() {}
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+    this.matIconRegistry.addSvgIcon(
+      `menu`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/images/menu.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      `questionMark`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/images/question-mark.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      `settings`,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/images/settings.svg")
+    );
+  }
 
   ngOnInit(): void {
   }

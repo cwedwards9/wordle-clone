@@ -1,0 +1,8 @@
+@use "variables";
+
+.tile {
+    border: 2px solid variables.$border-gray;
+    height: 40px;
+    width: 40px;
+    margin: 0.2rem;
+}

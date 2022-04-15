@@ -4,6 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { MainComponent } from './components/main/main.component';
+import { GridComponent } from './components/grid/grid.component';
+import { GridRowComponent } from './components/grid-row/grid-row.component';
+import { GridTileComponent } from './components/grid-tile/grid-tile.component';
 
 // MODULES
 import { BrowserModule } from '@angular/platform-browser';
@@ -15,7 +18,10 @@ import { HttpClientModule } from "@angular/common/http";
   declarations: [
     AppComponent,
     NavbarComponent,
-    MainComponent
+    MainComponent,
+    GridComponent,
+    GridRowComponent,
+    GridTileComponent
   ],
   imports: [
     BrowserModule,

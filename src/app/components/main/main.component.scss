@@ -1,0 +1,7 @@
+@use "variables";
+
+.main-container {
+    padding: 0 4rem;
+    height: calc(100vh - 50px); // subtract nav height
+    background-color: variables.$main-bg-color; 
+}

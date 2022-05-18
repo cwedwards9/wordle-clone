@@ -4,11 +4,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 400px;
+    width: 475px;
     margin: 0 auto;
 
     .backspace-btn {
-        min-width: 2.5rem;
+        width: 4rem;
         height: 3.75rem;
         background-color: variables.$border-gray;
         color: variables.$main-text-white;

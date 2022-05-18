@@ -7,6 +7,8 @@ import { MainComponent } from './components/main/main.component';
 import { GridComponent } from './components/grid/grid.component';
 import { GridRowComponent } from './components/grid-row/grid-row.component';
 import { GridTileComponent } from './components/grid-tile/grid-tile.component';
+import { KeyboardComponent } from "./components/keyboard/keyboard.component";
+import { KeyComponent } from './components/key/key.component';
 
 // MODULES
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +23,9 @@ import { HttpClientModule } from "@angular/common/http";
     MainComponent,
     GridComponent,
     GridRowComponent,
-    GridTileComponent
+    GridTileComponent,
+    KeyboardComponent,
+    KeyComponent
   ],
   imports: [
     BrowserModule,

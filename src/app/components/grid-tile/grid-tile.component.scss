@@ -5,4 +5,9 @@
     height: 40px;
     width: 40px;
     margin: 0.2rem;
+
+    @media screen and (min-height: variables.$breakpoint-height) {
+        height: 60px;
+        width: 60px;
+    }
 }

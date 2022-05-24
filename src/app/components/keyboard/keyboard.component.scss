@@ -15,4 +15,16 @@
         border-radius: 4px;
         cursor: pointer;
     }
+
+}
+
+@media screen and (min-height: variables.$breakpoint-height) {
+    .keyboard {
+        width: 600px;
+    
+        .backspace-btn {
+            width: 5.75rem;
+            height: 4.5rem;
+        }
+    }
 }

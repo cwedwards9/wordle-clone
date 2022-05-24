@@ -1,5 +1,11 @@
+@use "variables";
+
 .grid-container {
     width: 50%;
     margin: 0 auto;
     padding: 1rem 1rem 0.5rem;
+
+    @media screen and (min-height: variables.$breakpoint-height) {
+        padding: 2rem 1rem;
+    }
 }

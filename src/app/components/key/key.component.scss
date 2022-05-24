@@ -10,9 +10,26 @@
         color: variables.$main-text-white;
         border-radius: 4px;
         cursor: pointer;
+
+        
     }
 
     .large-btn {
         width: 4rem;
+    }
+
+    
+}
+
+@media screen and (min-height: variables.$breakpoint-height) {
+    .key {
+        button {
+            min-width: 3.5rem;
+            height: 4.5rem;
+        }
+
+        .large-btn {
+            width: 5.75rem;
+        }
     }
 }

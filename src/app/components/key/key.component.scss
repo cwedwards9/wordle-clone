@@ -6,12 +6,14 @@
     button {
         min-width: 2.75rem;
         height: 3.75rem;
-        background-color: variables.$border-gray;
+        background-color: variables.$main-gray;
         color: variables.$main-text-white;
         border-radius: 4px;
         cursor: pointer;
 
-        
+        &:hover {
+            background-color: lighten(variables.$main-gray, 5%);
+        }
     }
 
     .large-btn {

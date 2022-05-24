@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {MatDialog} from '@angular/material/dialog';
+import {TutorialDialogComponent} from "../tutorial-dialog/tutorial-dialog.component";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 
@@ -9,7 +11,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
+  constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer, private dialog: MatDialog) {
     this.matIconRegistry.addSvgIcon(
       `menu`,
       this.domSanitizer.bypassSecurityTrustResourceUrl("./assets/images/menu.svg")
@@ -25,6 +27,14 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  openTutorialDialog() {
+    const dialogRef = this.dialog.open(TutorialDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }

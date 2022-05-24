@@ -1,0 +1,22 @@
+.tutorial-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .close-tutorial-btn  {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        
+        mat-icon {
+            height: 24px;
+            width: 24px;
+        }
+    }
+    
+    .placeholder {
+        height: 24px;
+        width: 24px;
+    }
+}

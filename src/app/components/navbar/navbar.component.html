@@ -1,7 +1,7 @@
 <nav class="nav-bar">
     <div class="nav-left-side">
         <mat-icon svgIcon="menu" aria-label="Menu"></mat-icon>
-        <mat-icon svgIcon="questionMark" aria-label="Question mark"></mat-icon>
+        <mat-icon (click)="openTutorialDialog()" svgIcon="questionMark" aria-label="Question mark"></mat-icon>
     </div>
     <h1 class="nav-title">Wordle</h1>
     <mat-icon svgIcon="settings" class="nav-right-side" aria-label="Settings"></mat-icon>

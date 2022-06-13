@@ -1,16 +1,36 @@
-<div>
+<div class="tutorial-dialog">
     <div class="tutorial-header">
         <div class="placeholder"></div>
-        <h2>HOW TO PLAY</h2>
+        <h2 class="tutorial-title">HOW TO PLAY</h2>
         <button
+            type="button"
             class="close-tutorial-btn"
             [mat-dialog-close]="">
             <mat-icon>close</mat-icon>
-    </button>
+        </button>
     </div>
 
-    <p>Guess the WORDLE in six tries.</p>
-    <p>Each guess must be a valid five-letter word. Hit the enter button to submit.</p>
-    <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
+    <div class="tutorial-directions">
+        <p>Guess the WORDLE in six tries.</p>
+        <p>Each guess must be a valid five-letter word. Hit the enter button to submit.</p>
+        <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
+    </div>
     <mat-divider></mat-divider>
+    <div class="tutorial-examples">
+        <p>Examples</p>
+        <div class="tut-grid-row-container">
+            <grid-row></grid-row>
+            <p>The letter W is in the word and in the correct spot.</p>
+        </div>
+        <div class="tut-grid-row-container">
+            <grid-row></grid-row>
+            <p>The letter I is in the word but in the wrong spot.</p>
+        </div>
+        <div class="tut-grid-row-container">
+            <grid-row></grid-row>
+            <p>The letter U is not in the word in any spot.</p>
+        </div>
+    </div>
+    <mat-divider></mat-divider>
+    <p>A new WORDLE will be available each day!</p>
 </div>

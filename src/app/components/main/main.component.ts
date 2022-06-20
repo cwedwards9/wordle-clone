@@ -12,4 +12,8 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  keyClick(key: string) {
+    console.log(key)
+  }
+
 }

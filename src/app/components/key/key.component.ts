@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'key',
@@ -7,10 +7,16 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class KeyComponent implements OnInit {
   @Input() key!: string;
+  @Output() keyClick = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onClick() {
+    console.log(this.key)
+    this.keyClick.emit(this.key);
   }
 
 }

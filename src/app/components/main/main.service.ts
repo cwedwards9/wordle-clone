@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 interface KeyState {
-  lettersUsed: string[];
+  guessedWords: string[];
+  currentWord: string;
+  currentRow: number;
+  currentTileIndex: number;
 }
 
 const initialState = {
-  lettersUsed: [],
+  guessedWords: ["weird", "blast", "broke"],
+  currentWord: "",
+  currentRow: 1,
+  currentTileIndex: 0
 }
 
 @Injectable({
@@ -18,24 +24,26 @@ export class MainService {
   // behavior subjects, used to house the state object(s)
   private readonly _state$ = new BehaviorSubject<Readonly<KeyState>>(initialState);
 
+  protected get state() {
+    return this._state$.getValue();
+  }
 
-  // observables
-  readonly lettersUsed$ = this._state$.pipe(
-    map(state => state.lettersUsed)
+  readonly guessedWords$ = this._state$.pipe(
+    filter((state) => !!state.guessedWords),
+    map((state) => state.guessedWords)
   )
-
+  
 
   constructor() { }
 
-
   // actions, settings state from other components
-  addLetterAsUsed() {
-    this.setAddedLetterAsUsed();
+  addLetterAsUsed(key: string) {
+    this.setAddedLetterAsUsed(key);
   }
 
 
   // set state
-  protected setAddedLetterAsUsed() {
-
+  protected setAddedLetterAsUsed(key: string) {
+    
   }
 }

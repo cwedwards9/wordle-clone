@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MainService } from './main.service';
 
 @Component({
   selector: 'main',
@@ -6,14 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
-
-  constructor() { }
+  constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
   }
 
   keyClick(key: string) {
-    console.log(key)
+    this.mainService.addLetterAsUsed(key);
   }
 
 }

@@ -1,4 +1,4 @@
 <section class="main-container">
     <grid></grid>
-    <keyboard (onKeyClick)="keyClick($event)"></keyboard>
+    <keyboard (onKeyClick)="keyClick($event)" (onBackspace)="backspaceClick()" (onEnter)="enterClick()"></keyboard>
 </section>

@@ -13,7 +13,15 @@ export class MainComponent implements OnInit {
   }
 
   keyClick(key: string) {
-    this.mainService.addLetterAsUsed(key);
+    this.mainService.addLetterToWord(key);
+  }
+
+  backspaceClick() {
+    this.mainService.removeLetter();
+  }
+  
+  enterClick() {
+    this.mainService.enterWord();
   }
 
 }

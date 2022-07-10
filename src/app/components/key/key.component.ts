@@ -15,8 +15,7 @@ export class KeyComponent implements OnInit {
   }
 
   onClick() {
-    console.log(this.key)
-    this.keyClick.emit(this.key);
+    this.keyClick.emit(this.key.toLowerCase());
   }
 
 }

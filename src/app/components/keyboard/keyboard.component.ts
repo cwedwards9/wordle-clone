@@ -11,6 +11,8 @@ import { KEY_LIST } from "../../keyList";
 export class KeyboardComponent implements OnInit {
   keyList: string[] = KEY_LIST;
   @Output() onKeyClick = new EventEmitter<string>();
+  @Output() onBackspace = new EventEmitter<string>();
+  @Output() onEnter = new EventEmitter<string>();
 
   constructor(private matIconRegistry: MatIconRegistry, private domSanitizer: DomSanitizer) {
     this.matIconRegistry.addSvgIcon(
@@ -22,12 +24,12 @@ export class KeyboardComponent implements OnInit {
   }
 
   backspaceClick() {
-    this.keyClick("backspace");
+    this.onBackspace.emit();
   }
 
   keyClick(key: string) {
-    console.log(key)
-    this.onKeyClick.emit(key);
+    if(key === "enter") this.onEnter.emit();
+    else this.onKeyClick.emit(key);
   }
 
 }

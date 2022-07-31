@@ -60,18 +60,28 @@ export class MainService {
     if(this.state.currentWord.length === 5) return;
 
     // update current word with new letter
-    const currentWord = this.state.currentWord + key
+    const newWord = this.state.currentWord + key
     
     // update the 'current word' in state
-      this._state$.next({
-        ...this.state,
-        currentWord: currentWord
-      });
+    this._state$.next({
+      ...this.state,
+      currentWord: newWord
+    });
   }
 
+  // remove letter
   protected setRemoveLetter() {
-    // remove letter
-    console.log("code to remove letter here")
+    if(this.state.currentWord.length === 0) return;
+
+    // update current word with removing last letter
+    const { currentWord } = this.state;
+    const newWord = currentWord.substring(0, currentWord.length - 1);
+ 
+    // update the 'current word' in state
+    this._state$.next({
+      ...this.state,
+      currentWord: newWord
+    });
   }
 
   protected setEnterWord() {

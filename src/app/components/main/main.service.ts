@@ -6,14 +6,12 @@ interface KeyState {
   guessedWords: string[];
   currentWord: string;
   currentRow: number;
-  currentTileIndex: number;
 }
 
 const initialState = {
-  guessedWords: ["weird", "blast", "broke", "ocean"],
-  currentWord: "stra",
-  currentRow: 0,
-  currentTileIndex: 0
+  guessedWords: [],
+  currentWord: "",
+  currentRow: 0
 }
 
 @Injectable({
@@ -59,21 +57,16 @@ export class MainService {
 
   // set state
   protected setAddedLetter(key: string) {
-    // if it is all but these two keys, look to update state
-    if(key !== "enter") {
-      const row = this.state.currentWord.length === 4 ? this.state.currentRow + 1 : this.state.currentRow;
-      
-      // only update the 'current word' in state if the word is less than 5 letters
-      if(this.state.currentWord.length < 5) {
-        this._state$.next({
-          ...this.state,
-          currentWord: this.state.currentWord + key,
-          currentRow: row,
-        });
-      }
+    if(this.state.currentWord.length === 5) return;
 
-      console.log(this.state)
-    }
+    // update current word with new letter
+    const currentWord = this.state.currentWord + key
+    
+    // update the 'current word' in state
+      this._state$.next({
+        ...this.state,
+        currentWord: currentWord
+      });
   }
 
   protected setRemoveLetter() {

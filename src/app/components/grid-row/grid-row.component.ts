@@ -1,6 +1,6 @@
 import { Component, OnInit , Input} from '@angular/core';
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { combineLatest, map } from 'rxjs/operators';
 import { MainService } from '../main/main.service';
 
 @Component({
@@ -11,23 +11,7 @@ import { MainService } from '../main/main.service';
 export class GridRowComponent implements OnInit {
   @Input() rowNum!: number;
 
-  guessedWords$ = this.mainService.guessedWords$;
+  constructor() { }
 
-  rowWord!: string;
-
-  constructor(private mainService: MainService) { }
-
-  ngOnInit(): void {
-    this.guessedWords$.pipe(
-      map((words) => {
-        return words.filter((word, idx) => {
-          return idx === this.rowNum;
-        })
-      }),
-      map(value => value[0])
-    ).subscribe(word => {
-        console.log(word)
-        word ? this.rowWord = word : this.rowWord = "";
-    })
-  }
+  ngOnInit(): void {}
 }

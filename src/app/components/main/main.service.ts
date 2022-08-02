@@ -14,6 +14,12 @@ const initialState = {
   currentRow: 0
 }
 
+enum GameRules {
+  MaxGuesses = 6,
+  WordLength = 5,
+  RowAmount = 6
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -57,7 +63,7 @@ export class MainService {
 
   // set state
   protected setAddedLetter(key: string) {
-    if(this.state.currentWord.length === 5) return;
+    if(this.state.currentWord.length === GameRules.WordLength) return;
 
     // update current word with new letter
     const newWord = this.state.currentWord + key
@@ -85,6 +91,19 @@ export class MainService {
   }
 
   protected setEnterWord() {
+    if(this.state.currentWord.length !== GameRules.WordLength || this.state.currentRow >= GameRules.RowAmount) return;
     console.log("enter the word to try")
+
+    // check the letters of the word against the actual word
+
+    // update state
+    const { currentWord } = this.state;
+    const nextRow = this.state.currentRow + 1;
+
+    this._state$.next({
+      guessedWords: [...this.state.guessedWords, currentWord],
+      currentWord: "",
+      currentRow: nextRow
+    })
   }
 }

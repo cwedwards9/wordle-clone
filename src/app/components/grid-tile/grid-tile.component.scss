@@ -16,3 +16,13 @@
         width: 60px;
     }
 }
+
+.correct {
+    background-color: variables.$green-correct
+}
+.close {
+    background-color: variables.$yellow-close
+}
+.incorrect {
+    background-color: variables.$grey-incorrect
+}

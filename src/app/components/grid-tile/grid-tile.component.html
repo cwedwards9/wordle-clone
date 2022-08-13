@@ -1,1 +1,5 @@
-<p class="tile">{{ tileLetter | uppercase }}</p>
+<p 
+    class="tile"
+    [class]="this.letterStatus">
+        {{ tileLetter | uppercase }}
+</p>

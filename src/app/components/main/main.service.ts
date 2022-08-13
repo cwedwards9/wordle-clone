@@ -3,14 +3,14 @@ import { BehaviorSubject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 interface KeyState {
-  guessedWords: string[];
-  currentWord: string;
+  guessedWordsList: string[];
+  guessedWord: string;
   currentRow: number;
 }
 
 const initialState = {
-  guessedWords: [],
-  currentWord: "",
+  guessedWordsList: [],
+  guessedWord: "",
   currentRow: 0
 }
 
@@ -32,13 +32,13 @@ export class MainService {
     return this._state$.getValue();
   }
 
-  readonly guessedWords$ = this._state$.pipe(
-    filter((state) => !!state.guessedWords),
-    map((state) => state.guessedWords)
+  readonly guessedWordsList$ = this._state$.pipe(
+    filter((state) => !!state.guessedWordsList),
+    map((state) => state.guessedWordsList)
   )
 
-  readonly currentWord$ = this._state$.pipe(
-    map(state => state.currentWord)
+  readonly guessedWord$ = this._state$.pipe(
+    map(state => state.guessedWord)
   )
   
   readonly currentRow$ = this._state$.pipe(
@@ -63,46 +63,46 @@ export class MainService {
 
   // set state
   protected setAddedLetter(key: string) {
-    if(this.state.currentWord.length === GameRules.WordLength) return;
+    if(this.state.guessedWord.length === GameRules.WordLength) return;
 
     // update current word with new letter
-    const newWord = this.state.currentWord + key
+    const newWord = this.state.guessedWord + key
     
     // update the 'current word' in state
     this._state$.next({
       ...this.state,
-      currentWord: newWord
+      guessedWord: newWord
     });
   }
 
   // remove letter
   protected setRemoveLetter() {
-    if(this.state.currentWord.length === 0) return;
+    if(this.state.guessedWord.length === 0) return;
 
     // update current word with removing last letter
-    const { currentWord } = this.state;
-    const newWord = currentWord.substring(0, currentWord.length - 1);
+    const { guessedWord } = this.state;
+    const newWord = guessedWord.substring(0, guessedWord.length - 1);
  
     // update the 'current word' in state
     this._state$.next({
       ...this.state,
-      currentWord: newWord
+      guessedWord: newWord
     });
   }
 
   protected setEnterWord() {
-    if(this.state.currentWord.length !== GameRules.WordLength || this.state.currentRow >= GameRules.RowAmount) return;
+    if(this.state.guessedWord.length !== GameRules.WordLength || this.state.currentRow >= GameRules.RowAmount) return;
     console.log("enter the word to try")
 
     // check the letters of the word against the actual word
 
     // update state
-    const { currentWord } = this.state;
+    const { guessedWord } = this.state;
     const nextRow = this.state.currentRow + 1;
 
     this._state$.next({
-      guessedWords: [...this.state.guessedWords, currentWord],
-      currentWord: "",
+      guessedWordsList: [...this.state.guessedWordsList, guessedWord],
+      guessedWord: "",
       currentRow: nextRow
     })
   }

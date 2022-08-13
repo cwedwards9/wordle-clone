@@ -14,14 +14,14 @@ export class GridTileComponent implements OnInit {
 
   tileLetter!: string;
 
-  guessedWords$ = this.mainService.guessedWords$;
-  currentWord$ = this.mainService.currentWord$;
+  guessedWordsList$ = this.mainService.guessedWordsList$;
+  guessedWord$ = this.mainService.guessedWord$;
   currentRow$ = this.mainService.currentRow$;
 
   constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
-    this.guessedWords$.pipe(
+    this.guessedWordsList$.pipe(
       map((words) => {
         return words.filter((word, idx) => {
           return idx === this.rowNum;
@@ -37,9 +37,9 @@ export class GridTileComponent implements OnInit {
 
     // this.currentRow$.pipe(combineLatest)
 
-    combineLatest([this.currentRow$, this.currentWord$]).pipe(map(([currentRow, currentWord]) => {
+    combineLatest([this.currentRow$, this.guessedWord$]).pipe(map(([currentRow, guessedWord]) => {
       if(currentRow === this.rowNum) {
-        this.tileLetter = currentWord[this.tileNum]
+        this.tileLetter = guessedWord[this.tileNum]
       }
     })).subscribe()
   }

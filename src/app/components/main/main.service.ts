@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+import { wordBank } from "../../wordBank";
+
 interface KeyState {
   guessedWordsList: string[];
   guessedWord: string;
+  currentWord:  string;
   currentRow: number;
 }
 
 const initialState = {
   guessedWordsList: [],
   guessedWord: "",
+  currentWord: "",
   currentRow: 0
 }
 
@@ -19,6 +23,8 @@ enum GameRules {
   WordLength = 5,
   RowAmount = 6
 }
+
+const wordSet = new Set();
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +51,24 @@ export class MainService {
     map(state => state.currentRow)
   )
 
-  constructor() { }
+  readonly currentWord$ = this._state$.pipe(
+    map(state => state.currentWord)
+  )
+
+  constructor() { 
+    this.generateWord();
+  }
+
+  private generateWord() {
+    const word = wordBank[Math.floor(Math.random() * wordBank.length)];
+
+    if(wordSet.has(word)) {
+      this.generateWord();
+    } else {
+      wordSet.add(word);
+      this.updateCurrentWord(word);
+    }
+  }
 
   // actions, settings state from other components
   addLetterToWord(key: string) {
@@ -57,11 +80,13 @@ export class MainService {
   }
 
   enterWord() {
-    this.setEnterWord();
+    this.submitEnterWord();
   }
 
 
-  // set state
+  /**
+   * add a letter to the user's guessed word
+   */
   protected setAddedLetter(key: string) {
     if(this.state.guessedWord.length === GameRules.WordLength) return;
 
@@ -75,7 +100,9 @@ export class MainService {
     });
   }
 
-  // remove letter
+  /**
+   * remove letter from the user's guessed word
+   */
   protected setRemoveLetter() {
     if(this.state.guessedWord.length === 0) return;
 
@@ -90,7 +117,11 @@ export class MainService {
     });
   }
 
-  protected setEnterWord() {
+  /**
+   * called when user clicks the "Enter" button, executes logic if the guessed word is complete and there is another row, guess
+   * add the complete, full word, to the list of guessed words, reset the guessed word, move to next row
+   */
+  protected submitEnterWord() {
     if(this.state.guessedWord.length !== GameRules.WordLength || this.state.currentRow >= GameRules.RowAmount) return;
     console.log("enter the word to try")
 
@@ -103,7 +134,20 @@ export class MainService {
     this._state$.next({
       guessedWordsList: [...this.state.guessedWordsList, guessedWord],
       guessedWord: "",
+      currentWord: this.state.currentWord,
       currentRow: nextRow
     })
+  }
+
+  /**
+   * update the word to guess, in state
+   * @param newWord randomly generated word from word bank
+   */
+  protected updateCurrentWord(newWord: string) {
+    
+    this._state$.next({
+      ...this.state,
+      currentWord: newWord
+    });
   }
 }

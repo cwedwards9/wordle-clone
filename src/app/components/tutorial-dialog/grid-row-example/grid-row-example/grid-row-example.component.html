@@ -1,0 +1,13 @@
+<div class="grid-row">
+    <p
+        *ngFor="let letter of wordExample; let idx = index"
+        [ngClass]="{
+            'correct': idx == wordExampleObject.index && wordExampleObject.status === 'correct',
+            'close': idx == wordExampleObject.index && wordExampleObject.status === 'close',
+            'incorrect': idx == wordExampleObject.index && wordExampleObject.status === 'incorrect'
+        }"
+        class="tile"
+    >
+        {{ letter | uppercase }}
+    </p>
+</div>

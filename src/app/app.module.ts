@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from "@angular/common/http";
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
+import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-example/grid-row-example/grid-row-example.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatDividerModule} from '@angular/material/divider';
     GridTileComponent,
     KeyboardComponent,
     KeyComponent,
-    TutorialDialogComponent
+    TutorialDialogComponent,
+    GridRowExampleComponent
   ],
   imports: [
     BrowserModule,

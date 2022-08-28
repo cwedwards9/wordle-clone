@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MainService } from './main.service';
+
+const allowedCharacters = "abcdefghijklmnopqrstuvwxyz";
 
 @Component({
   selector: 'main',
@@ -8,6 +10,18 @@ import { MainService } from './main.service';
 })
 export class MainComponent implements OnInit {
   constructor(private mainService: MainService) { }
+
+  @HostListener("window:keydown", ['$event'])
+  keyEvent(event: KeyboardEvent) {
+    const key = event.key.toLowerCase();
+
+    if (allowedCharacters.includes(key))
+      this.mainService.addLetterToWord(key);
+    else if(key === "enter")
+      this.mainService.enterWord();
+    else if(key == "backspace")
+      this.mainService.removeLetter();
+  }
 
   ngOnInit(): void {
   }

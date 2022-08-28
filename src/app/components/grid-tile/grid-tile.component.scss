@@ -18,11 +18,14 @@
 }
 
 .correct {
-    background-color: variables.$green-correct
+    background-color: variables.$green-correct;
+    border: 2px solid variables.$green-correct;
 }
 .close {
-    background-color: variables.$yellow-close
+    background-color: variables.$yellow-close;
+    border: 2px solid variables.$yellow-close;
 }
 .incorrect {
-    background-color: variables.$grey-incorrect
+    background-color: variables.$grey-incorrect;
+    border: 2px solid variables.$grey-incorrect;
 }

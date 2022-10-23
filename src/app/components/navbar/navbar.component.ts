@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
-import {TutorialDialogComponent} from "../tutorial-dialog/tutorial-dialog.component";
+import { MatDialog } from '@angular/material/dialog';
+import { TutorialDialogComponent } from "../tutorial-dialog/tutorial-dialog.component";
+import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 
@@ -33,20 +34,23 @@ export class NavbarComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
-  openTutorialDialog() {
-    const dialogRef = this.dialog.open(TutorialDialogComponent, {
+  public openTutorialDialog() {
+    this.dialog.open(TutorialDialogComponent, {
       position: {
         top: "50px"
       },
       maxHeight: "calc(100vh - 75px)"
     });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 
+  public openStatsDialog() {
+    this.dialog.open(StatisticsDialogComponent, {
+      position: {
+        top: "50px"
+      },
+      maxHeight: "calc(100vh - 75px)"
+    });
+  }
 }

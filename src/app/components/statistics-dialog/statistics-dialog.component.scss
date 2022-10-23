@@ -1,0 +1,52 @@
+@use "variables";
+
+.stats-dialog {
+    width: 500px;
+    background-color: variables.$main-bg-color;
+    color: variables.$main-text-white;
+
+    .stats-head {
+        display: flex;
+        justify-content: flex-end;
+
+        .close-stats-btn  {
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            
+            mat-icon {
+                color: variables.$main-text-white;
+                height: 24px;
+                width: 24px;
+            }
+        }
+    }
+    
+    .stats-title,
+    .stats-heading {
+        text-align: center;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .stat-numbers {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 2rem;
+
+        div {
+            margin: 0 0.5rem;
+        }
+
+        .stat-score {
+            font-size: 2rem;
+            text-align: center;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            text-align: center;
+        }
+    }
+}

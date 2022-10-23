@@ -1,1 +1,33 @@
-<p>statistics-dialog works!</p>
+<div class="stats-dialog">
+    <div class="stats-head">
+        <button
+            type="button"
+            class="close-stats-btn"
+            [mat-dialog-close]="">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <h2 class="stats-title">STATISTICS</h2>
+    <!-- TODO: remove placeholder stats once local storage has been implemented -->
+    <div class="stat-numbers">
+        <div>
+            <p class="stat-score">2</p>
+            <p class="stat-label">Played</p>
+        </div>
+        <div>
+            <p class="stat-score">100</p>
+            <p class="stat-label">Win %</p>
+        </div>
+        <div>
+            <p class="stat-score">1</p>
+            <p class="stat-label">Current Streak</p>
+        </div>
+        <div>
+            <p class="stat-score">1</p>
+            <p class="stat-label">Max Streak</p>
+        </div>
+    </div>
+
+    <h3 class="stats-heading">GUESS DISTRIBUTION</h3>
+    <!-- bar chart goes here -->
+</div>

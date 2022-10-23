@@ -19,6 +19,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
 import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-example/grid-row-example/grid-row-example.component';
+import { StatisticsDialogComponent } from './components/statistics-dialog/statistics-dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-e
     KeyboardComponent,
     KeyComponent,
     TutorialDialogComponent,
-    GridRowExampleComponent
+    GridRowExampleComponent,
+    StatisticsDialogComponent
   ],
   imports: [
     BrowserModule,

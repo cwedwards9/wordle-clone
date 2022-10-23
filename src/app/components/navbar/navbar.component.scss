@@ -21,7 +21,7 @@
     }
     .nav-right-side {
         @extend %common;
-        justify-content: flex-end;
+        justify-content: space-between;
     }
 
     mat-icon {

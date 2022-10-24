@@ -1,7 +1,7 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MainService } from './main.service';
 
-const allowedCharacters = "abcdefghijklmnopqrstuvwxyz";
+const ALLOWED_CHARACTERS = "abcdefghijklmnopqrstuvwxyz";
 
 @Component({
   selector: 'main',
@@ -15,7 +15,7 @@ export class MainComponent implements OnInit {
   keyEvent(event: KeyboardEvent) {
     const key = event.key.toLowerCase();
 
-    if (allowedCharacters.includes(key))
+    if (ALLOWED_CHARACTERS.includes(key))
       this.mainService.addLetterToWord(key);
     else if(key === "enter")
       this.mainService.enterWord();
@@ -23,19 +23,25 @@ export class MainComponent implements OnInit {
       this.mainService.removeLetter();
   }
 
-  ngOnInit(): void {
+  @HostListener('window:unload', [ '$event' ])
+  /**
+   * before leaving the game, save the stats of the game to local storage
+   */
+  public unloadHandler() {
+    this.mainService.saveCurrentGame();
   }
 
-  keyClick(key: string) {
+  ngOnInit(): void {}
+
+  public keyClick(key: string) {
     this.mainService.addLetterToWord(key);
   }
 
-  backspaceClick() {
+  public backspaceClick() {
     this.mainService.removeLetter();
   }
   
-  enterClick() {
+  public enterClick() {
     this.mainService.enterWord();
   }
-
 }

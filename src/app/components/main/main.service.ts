@@ -55,11 +55,86 @@ export class MainService {
     map(state => state.currentWord)
   )
 
-  constructor() { 
+  constructor() {
+    this.loadConfig();
+    this.generateGame();
+  }
+
+  /**
+   * on game load, check if we have something in local storage to track our user's game history 
+   */
+   private loadConfig() {
+    const wordleData = localStorage.getItem("wordleData");
+    if(!!wordleData) return;
+
     this.generateWord();
+
+    const initWordleGame = JSON.stringify({
+      gamesPlayed: 0,
+      gamesWon: 0,
+      winStreak: 0,
+      currentWord: this.state.currentWord,
+      guessedWords: []
+    });
+
+    localStorage.setItem("wordleData", initWordleGame);
+  }
+
+  /**
+   * after submitting a game, save the game and user's updated stats to local storage
+   */
+  private saveGame(status: number) {
+    const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
+
+    let { gamesPlayed, gamesWon, winStreak } = wordleData;
+
+    const updatedData = JSON.stringify({
+      gamesPlayed: gamesPlayed + 1,
+      gamesWon: status === 1 ? gamesWon + 1 : gamesWon,
+      winStreak: status === 1 ? winStreak + 1 : 0,
+      currentWord: this.state.currentWord,
+      guessedWords: this.state.guessedWordsList
+    });
+
+    localStorage.setItem("wordleData", updatedData);
+  }
+
+  private saveBeforeLeaving() {
+    const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
+
+    let { gamesPlayed, gamesWon, winStreak } = wordleData;
+
+    const updatedData = JSON.stringify({
+      gamesPlayed: gamesPlayed,
+      gamesWon: gamesWon,
+      winStreak: winStreak,
+      currentWord: this.state.currentWord,
+      guessedWords: this.state.guessedWordsList
+    });
+
+    localStorage.setItem("wordleData", updatedData);
+  }
+
+  
+
+  /**
+   * generate game, update state with user's last game history (whether it was finished or unfinished)
+   */
+  private generateGame() {
+    const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
+
+    let { currentWord, guessedWords } = wordleData;
+
+    this._state$.next({
+      ...this.state,
+      currentWord: currentWord,
+      guessedWordsList: guessedWords,
+      currentRow: guessedWords.length
+    });
   }
 
   private generateWord() {
+    // if there is nothing, generate a word
     const word = wordBank[Math.floor(Math.random() * wordBank.length)];
 
     if(wordSet.has(word)) {
@@ -70,16 +145,34 @@ export class MainService {
     }
   }
 
+  /**
+   * when a user leaves wordle, save the progress of the game
+   */
+  public saveCurrentGame() {
+    this.saveBeforeLeaving();
+  }
+
   // actions, settings state from other components
-  addLetterToWord(key: string) {
+
+  /**
+   * adds the clicked letter to the current row's word 
+   * @param key the alphabetical key clicked on the keyboard in the app
+   */
+  public addLetterToWord(key: string) {
     this.setAddedLetter(key);
   }
 
-  removeLetter() {
+  /**
+   * removes the last letter from the current row
+   */
+  public removeLetter() {
     this.setRemoveLetter();
   }
 
-  enterWord() {
+  /**
+   * enters / submits the current row's word if it is complete
+   */
+  public enterWord() {
     this.submitEnterWord();
   }
 
@@ -91,12 +184,12 @@ export class MainService {
     if(this.state.guessedWord.length === GameRules.WordLength) return;
 
     // update current word with new letter
-    const newWord = this.state.guessedWord + key
+    const updatedWord = this.state.guessedWord + key
     
     // update the 'current word' in state
     this._state$.next({
       ...this.state,
-      guessedWord: newWord
+      guessedWord: updatedWord
     });
   }
 
@@ -108,24 +201,38 @@ export class MainService {
 
     // update current word with removing last letter
     const { guessedWord } = this.state;
-    const newWord = guessedWord.substring(0, guessedWord.length - 1);
+    const updatedWord = guessedWord.substring(0, guessedWord.length - 1);
  
     // update the 'current word' in state
     this._state$.next({
       ...this.state,
-      guessedWord: newWord
+      guessedWord: updatedWord
     });
   }
 
   /**
-   * called when user clicks the "Enter" button, executes logic if the guessed word is complete and there is another row, guess
+   * submits the current word if the guessed word is complete
    * add the complete, full word, to the list of guessed words, reset the guessed word, move to next row
    */
   protected submitEnterWord() {
-    if(this.state.guessedWord.length !== GameRules.WordLength || this.state.currentRow >= GameRules.RowAmount) return;
-    console.log("enter the word to try")
+    if(this.state.guessedWord.length !== GameRules.WordLength) return;
 
-    // check the letters of the word against the actual word
+    // if we guess the correct word
+    if(this.state.guessedWord === this.state.currentWord) {
+      // open dialog box with stats, congrats message, update local storage with win, games played, set a new word, reset state
+      this.resetState();
+      this.generateWord();
+      this.saveGame(1);
+      return;
+    }
+     
+    // if we are submitting our last guess
+    if(this.state.currentRow === GameRules.RowAmount - 1) {
+      this.resetState();
+      this.generateWord();
+      this.state.guessedWord === this.state.currentWord ? this.saveGame(1) : this.saveGame(0);
+      return;
+    }
 
     // update state
     const { guessedWord } = this.state;
@@ -136,7 +243,7 @@ export class MainService {
       guessedWord: "",
       currentWord: this.state.currentWord,
       currentRow: nextRow
-    })
+    });
   }
 
   /**
@@ -148,6 +255,19 @@ export class MainService {
     this._state$.next({
       ...this.state,
       currentWord: newWord
+    });
+  }
+
+  /**
+   * after a game has finished, reset game state
+   */
+  protected resetState() {
+    this._state$.next({
+      ...this.state,
+      guessedWordsList: [],
+      guessedWord: "",
+      currentWord: "",
+      currentRow: 0
     });
   }
 }

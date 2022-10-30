@@ -1,5 +1,10 @@
 @use "variables";
 
+@mixin tileStyle($color) {
+    background-color: $color;
+    border: 2px solid $color;
+}
+
 .grid-row {
     display: flex;
     justify-content: center;
@@ -23,11 +28,12 @@
 }
 
 .correct {
-    background-color: variables.$green-correct
+    @include tileStyle(variables.$green-correct);
 }
 .close {
-    background-color: variables.$yellow-close
+    @include tileStyle(variables.$yellow-close);
 }
 .incorrect {
-    background-color: variables.$grey-incorrect
+    @include tileStyle(variables.$grey-incorrect);
+
 }

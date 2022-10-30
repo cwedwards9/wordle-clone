@@ -8,26 +8,25 @@
         </button>
     </div>
     <h2 class="stats-title">STATISTICS</h2>
-    <!-- TODO: remove placeholder stats once local storage has been implemented -->
-    <div class="stat-numbers">
+    <div *ngIf="data" class="stat-numbers">
         <div>
-            <p class="stat-score">2</p>
+            <p class="stat-score">{{ data.gamesPlayed }}</p>
             <p class="stat-label">Played</p>
         </div>
         <div>
-            <p class="stat-score">100</p>
+            <p class="stat-score">{{ winPercentage }}</p>
             <p class="stat-label">Win %</p>
         </div>
         <div>
-            <p class="stat-score">1</p>
+            <p class="stat-score">{{ data.winStreak }}</p>
             <p class="stat-label">Current Streak</p>
-        </div>
-        <div>
-            <p class="stat-score">1</p>
-            <p class="stat-label">Max Streak</p>
         </div>
     </div>
 
-    <h3 class="stats-heading">GUESS DISTRIBUTION</h3>
+    <h3 *ngIf="data" class="stats-heading">GUESS DISTRIBUTION</h3>
     <!-- bar chart goes here -->
+
+    <div *ngIf="!data">
+        <p>We're sorry, but we cannot find your stats at this time.</p>
+    </div>
 </div>

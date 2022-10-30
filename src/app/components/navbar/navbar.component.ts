@@ -4,6 +4,7 @@ import { TutorialDialogComponent } from "../tutorial-dialog/tutorial-dialog.comp
 import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
+import { MainService } from '../main/main.service';
 
 @Component({
   selector: 'navbar',
@@ -13,6 +14,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 export class NavbarComponent implements OnInit {
 
   constructor(
+    private mainService: MainService,
     private matIconRegistry: MatIconRegistry, 
     private domSanitizer: DomSanitizer, 
     private dialog: MatDialog
@@ -46,11 +48,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public openStatsDialog() {
-    this.dialog.open(StatisticsDialogComponent, {
-      position: {
-        top: "50px"
-      },
-      maxHeight: "calc(100vh - 75px)"
-    });
+    this.mainService.openStatisticsDialog();
   }
 }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-
 import { wordBank } from "../../wordBank";
+import { MatDialog } from '@angular/material/dialog';
+import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
 
 interface KeyState {
   guessedWordsList: string[];
@@ -55,7 +56,7 @@ export class MainService {
     map(state => state.currentWord)
   )
 
-  constructor() {
+  constructor(private dialog: MatDialog,) {
     this.loadConfig();
     this.generateGame();
   }
@@ -83,15 +84,15 @@ export class MainService {
   /**
    * after submitting a game, save the game and user's updated stats to local storage
    */
-  private saveGame(status: number) {
+  private submitGame(gameWon: boolean) {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
 
     let { gamesPlayed, gamesWon, winStreak } = wordleData;
 
     const updatedData = JSON.stringify({
       gamesPlayed: gamesPlayed + 1,
-      gamesWon: status === 1 ? gamesWon + 1 : gamesWon,
-      winStreak: status === 1 ? winStreak + 1 : 0,
+      gamesWon: gameWon ? gamesWon + 1 : gamesWon,
+      winStreak: gameWon ? winStreak + 1 : 0,
       currentWord: this.state.currentWord,
       guessedWords: this.state.guessedWordsList
     });
@@ -176,6 +177,13 @@ export class MainService {
     this.submitEnterWord();
   }
 
+  /**
+   * opens the statistics dialog with the user's past game stats
+   */
+  public openStatisticsDialog() {
+    this.openStatsDialog();
+  }
+
 
   /**
    * add a letter to the user's guessed word
@@ -222,7 +230,9 @@ export class MainService {
       // open dialog box with stats, congrats message, update local storage with win, games played, set a new word, reset state
       this.resetState();
       this.generateWord();
-      this.saveGame(1);
+      this.submitGame(true);
+
+      this.openStatsDialog();
       return;
     }
      
@@ -230,7 +240,9 @@ export class MainService {
     if(this.state.currentRow === GameRules.RowAmount - 1) {
       this.resetState();
       this.generateWord();
-      this.state.guessedWord === this.state.currentWord ? this.saveGame(1) : this.saveGame(0);
+      this.state.guessedWord === this.state.currentWord ? this.submitGame(true) : this.submitGame(false);
+      
+      this.openStatsDialog();
       return;
     }
 
@@ -244,6 +256,23 @@ export class MainService {
       currentWord: this.state.currentWord,
       currentRow: nextRow
     });
+  }
+
+  private openStatsDialog(): void {
+    const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
+    const { gamesPlayed, gamesWon, winStreak } = wordleData;
+
+    let dialogRef = this.dialog.open(StatisticsDialogComponent, {
+      position: {
+        top: "50px"
+      },
+      maxHeight: "calc(100vh - 75px)",
+      data: {
+        gamesPlayed: gamesPlayed,
+        gamesWon: gamesWon,
+        winStreak: winStreak
+      }
+    })
   }
 
   /**

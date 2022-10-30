@@ -15,22 +15,17 @@
         font-size: 2.25rem;
     }
 
-    .nav-left-side {
-        @extend %common;
-        justify-content: space-between;
-    }
+    .nav-left-side,
     .nav-right-side {
-        @extend %common;
+        width: 80px;
+        display: flex;
         justify-content: space-between;
     }
 
-    mat-icon {
-        fill: #ffffff;
+    button {
+        color: white;
+        background-color: transparent;
+        border: none;
         cursor: pointer;
     }
-}
-
-%common {
-    width: 60px;
-    display: flex;
 }

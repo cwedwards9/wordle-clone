@@ -1,11 +1,19 @@
 <nav class="nav-bar">
     <div class="nav-left-side">
-        <mat-icon svgIcon="menu" aria-label="Menu"></mat-icon>
-        <mat-icon (click)="openTutorialDialog()" svgIcon="questionMark" aria-label="Question mark"></mat-icon>
+        <button mat-icon-button aria-label="Button with a horizontal 3 lines icon">
+            <mat-icon svgIcon="menu"></mat-icon>
+        </button>
+        <button (click)="openTutorialDialog()" mat-icon-button aria-label="Button with a question mark icon">
+            <mat-icon svgIcon="questionMark"></mat-icon>
+        </button>
     </div>
     <h1 class="nav-title">Wordle</h1>
     <div class="nav-right-side">
-        <mat-icon svgIcon="settings" aria-label="Settings"></mat-icon>
-        <mat-icon (click)="openStatsDialog()" aria-label="Statistics">bar_chart</mat-icon>
+        <button mat-icon-button aria-label="Button with settings cog icon">
+            <mat-icon svgIcon="settings"></mat-icon>
+        </button>
+        <button (click)="openStatsDialog()" mat-icon-button aria-label="Button with bar chart for statistics">
+            <mat-icon>bar_chart</mat-icon>
+        </button>
     </div>
 </nav>

@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { wordBank } from "../../wordBank";
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
 
 interface KeyState {
@@ -56,7 +57,10 @@ export class MainService {
     map(state => state.currentWord)
   )
 
-  constructor(private dialog: MatDialog,) {
+  constructor(
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
+  ) {
     this.loadConfig();
     this.generateGame();
   }
@@ -228,21 +232,31 @@ export class MainService {
     // if we guess the correct word
     if(this.state.guessedWord === this.state.currentWord) {
       // open dialog box with stats, congrats message, update local storage with win, games played, set a new word, reset state
+      const result = this.state.guessedWord === this.state.currentWord;
+      const word = this.state.currentWord;
+
       this.resetState();
       this.generateWord();
       this.submitGame(true);
 
       this.openStatsDialog();
+      this.openSnackbar(result, word);
+      
       return;
     }
      
     // if we are submitting our last guess
     if(this.state.currentRow === GameRules.RowAmount - 1) {
+      const result = this.state.guessedWord === this.state.currentWord;
+      const word = this.state.currentWord;
+
       this.resetState();
       this.generateWord();
-      this.state.guessedWord === this.state.currentWord ? this.submitGame(true) : this.submitGame(false);
+      this.submitGame(result);
       
       this.openStatsDialog();
+      this.openSnackbar(result, word);
+      
       return;
     }
 
@@ -262,7 +276,7 @@ export class MainService {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
     const { gamesPlayed, gamesWon, winStreak } = wordleData;
 
-    let dialogRef = this.dialog.open(StatisticsDialogComponent, {
+    this.dialog.open(StatisticsDialogComponent, {
       position: {
         top: "50px"
       },
@@ -273,6 +287,18 @@ export class MainService {
         winStreak: winStreak
       }
     })
+  }
+
+  private openSnackbar(result: boolean, word: string): void {
+    let message = result ? 
+      `Correct! You correctly guessed the word ${word}` : 
+      `Sorry, you did not guess the correct word, ${word}`;
+
+    const resultClassName = result ? "correct-guess" : "incorrect-guess";
+
+    this.snackbar.open(message, "Close", {
+      panelClass: ["game-result-notif", resultClassName]
+    });
   }
 
   /**

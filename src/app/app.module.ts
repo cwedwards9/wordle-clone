@@ -10,6 +10,8 @@ import { GridTileComponent } from './components/grid-tile/grid-tile.component';
 import { KeyboardComponent } from "./components/keyboard/keyboard.component";
 import { KeyComponent } from './components/key/key.component';
 import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
+import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-example/grid-row-example/grid-row-example.component';
+import { StatisticsDialogComponent } from './components/statistics-dialog/statistics-dialog.component';
 
 // MODULES
 import { BrowserModule } from '@angular/platform-browser';
@@ -19,8 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { HttpClientModule } from "@angular/common/http";
 import { MatDialogModule } from '@angular/material/dialog';
 import {MatDividerModule} from '@angular/material/divider';
-import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-example/grid-row-example/grid-row-example.component';
-import { StatisticsDialogComponent } from './components/statistics-dialog/statistics-dialog.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { StatisticsDialogComponent } from './components/statistics-dialog/statis
     MatButtonModule,
     HttpClientModule,
     MatDialogModule,
-    MatDividerModule
+    MatDividerModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -12,10 +12,10 @@ export class StatisticsDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { gamesPlayed: string, gamesWon: string, winStreak: string }
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    const calc = (Number(this.data.gamesWon) / Number(this.data.gamesPlayed)) * 100;
+    const calc = Math.round((Number(this.data.gamesWon) / Number(this.data.gamesPlayed)) * 100);
 
     this.winPercentage = calc.toString() + "%";
   }

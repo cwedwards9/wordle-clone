@@ -9,3 +9,20 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-dialog-container {
     background-color: variables.$main-bg-color;
 }
+
+// override default snackbar styles
+.mat-snack-bar-container.game-result-notif {
+    max-width: 50vw;
+
+    &.correct-guess {
+        color: variables.$green-correct;
+    } 
+    
+    &.incorrect-guess {
+        color: #C03F5D;
+    }
+
+    .mat-simple-snackbar-action {
+        color: white;
+    }
+}

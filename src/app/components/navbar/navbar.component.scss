@@ -18,9 +18,12 @@
     .unlimited-text {
         font-family: Brush Script MT, Brush Script Std, cursive;
         font-size: 1.5rem;
-        position: absolute;
-        left: 56%;
         transform: rotate(20deg);
+    }
+
+    .nav-center {
+        display: flex;
+        align-items: center;
     }
 
     .nav-left-side,

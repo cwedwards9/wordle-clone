@@ -276,7 +276,7 @@ export class MainService {
 
   private openStatsDialog(): void {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
-    const { gamesPlayed, gamesWon, winStreak } = wordleData;
+    const { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
 
     this.dialog.open(StatisticsDialogComponent, {
       position: {
@@ -286,7 +286,8 @@ export class MainService {
       data: {
         gamesPlayed: gamesPlayed,
         gamesWon: gamesWon,
-        winStreak: winStreak
+        winStreak: winStreak,
+        guessAmountForWin: guessAmountForWin
       }
     })
   }

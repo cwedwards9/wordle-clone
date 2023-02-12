@@ -178,7 +178,7 @@ export class MainService {
    * enters / submits the current row's word if it is complete
    */
   public enterWord() {
-    this.submitEnterWord();
+    this.submitWord();
   }
 
   /**
@@ -226,50 +226,36 @@ export class MainService {
    * submits the current word if the guessed word is complete
    * add the complete, full word, to the list of guessed words, reset the guessed word, move to next row
    */
-  protected submitEnterWord() {
+  protected submitWord() {
     if(this.state.guessedWord.length !== GameRules.WordLength) return;
+    
+    const gameResult = this.state.guessedWord === this.state.currentWord;
+    const word = this.state.currentWord;
 
-    // if we guess the correct word
-    if(this.state.guessedWord === this.state.currentWord) {
+    // if we guess the correct word or we are making our last submit / guess - the game is done
+    if(!!gameResult || this.state.currentRow === GameRules.RowAmount - 1) {
       // open dialog box with stats, congrats message, update local storage with win, games played, set a new word, reset state
-      const result = this.state.guessedWord === this.state.currentWord;
-      const word = this.state.currentWord;
-
       this.resetState();
       this.generateWord();
-      this.submitGame(true);
+      this.submitGame(gameResult);
 
       this.openStatsDialog();
-      this.openSnackbar(result, word);
+      this.openSnackbar(gameResult, word);
       
       return;
-    }
-     
-    // if we are submitting our last guess
-    if(this.state.currentRow === GameRules.RowAmount - 1) {
-      const result = this.state.guessedWord === this.state.currentWord;
-      const word = this.state.currentWord;
-
-      this.resetState();
-      this.generateWord();
-      this.submitGame(result);
       
-      this.openStatsDialog();
-      this.openSnackbar(result, word);
-      
-      return;
+    } else {
+      // otherwise update state
+      const { guessedWord } = this.state;
+      const nextRow = this.state.currentRow + 1;
+
+      this._state$.next({
+        guessedWordsList: [...this.state.guessedWordsList, guessedWord],
+        guessedWord: "",
+        currentWord: this.state.currentWord,
+        currentRow: nextRow
+      });
     }
-
-    // update state
-    const { guessedWord } = this.state;
-    const nextRow = this.state.currentRow + 1;
-
-    this._state$.next({
-      guessedWordsList: [...this.state.guessedWordsList, guessedWord],
-      guessedWord: "",
-      currentWord: this.state.currentWord,
-      currentRow: nextRow
-    });
   }
 
   private openStatsDialog(): void {

@@ -78,6 +78,7 @@ export class MainService {
       gamesPlayed: 0,
       gamesWon: 0,
       winStreak: 0,
+      guessAmountForWin: {},
       currentWord: this.state.currentWord,
       guessedWords: []
     });
@@ -88,15 +89,29 @@ export class MainService {
   /**
    * after submitting a game, save the game and user's updated stats to local storage
    */
-  private submitGame(gameWon: boolean) {
+  private submitGame(gameWon: boolean, guessAmount: number) {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
 
-    let { gamesPlayed, gamesWon, winStreak } = wordleData;
+    let { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
+
+    let guessDistribution;
+
+    if(!!gameWon) {
+      guessDistribution = {
+        ...guessAmountForWin,
+      }
+      guessDistribution[guessAmount] 
+        ? guessDistribution[guessAmount] = guessDistribution[guessAmount] + 1 
+        : guessDistribution[guessAmount] = 1;
+    } else {
+      guessDistribution = guessAmountForWin;
+    }
 
     const updatedData = JSON.stringify({
       gamesPlayed: gamesPlayed + 1,
       gamesWon: gameWon ? gamesWon + 1 : gamesWon,
       winStreak: gameWon ? winStreak + 1 : 0,
+      guessAmountForWin: guessDistribution,
       currentWord: this.state.currentWord,
       guessedWords: this.state.guessedWordsList
     });
@@ -227,32 +242,33 @@ export class MainService {
    * add the complete, full word, to the list of guessed words, reset the guessed word, move to next row
    */
   protected submitWord() {
-    if(this.state.guessedWord.length !== GameRules.WordLength) return;
+    const { guessedWord, currentWord, currentRow, guessedWordsList } = this.state
+
+    if(guessedWord.length !== GameRules.WordLength) return;
     
-    const gameResult = this.state.guessedWord === this.state.currentWord;
-    const word = this.state.currentWord;
+    const gameResult = guessedWord === currentWord;
+    const guessAttemptNum = currentRow + 1;
 
     // if we guess the correct word or we are making our last submit / guess - the game is done
-    if(!!gameResult || this.state.currentRow === GameRules.RowAmount - 1) {
+    if(!!gameResult || guessAttemptNum === GameRules.RowAmount) {
       // open dialog box with stats, congrats message, update local storage with win, games played, set a new word, reset state
       this.resetState();
       this.generateWord();
-      this.submitGame(gameResult);
+      this.submitGame(gameResult, guessAttemptNum);
 
       this.openStatsDialog();
-      this.openSnackbar(gameResult, word);
+      this.openSnackbar(gameResult, currentWord);
       
       return;
-      
+
     } else {
       // otherwise update state
-      const { guessedWord } = this.state;
-      const nextRow = this.state.currentRow + 1;
+      const nextRow = currentRow + 1;
 
       this._state$.next({
-        guessedWordsList: [...this.state.guessedWordsList, guessedWord],
+        guessedWordsList: [...guessedWordsList, guessedWord],
         guessedWord: "",
-        currentWord: this.state.currentWord,
+        currentWord: currentWord,
         currentRow: nextRow
       });
     }
@@ -292,7 +308,6 @@ export class MainService {
    * @param newWord randomly generated word from word bank
    */
   protected updateCurrentWord(newWord: string) {
-    
     this._state$.next({
       ...this.state,
       currentWord: newWord

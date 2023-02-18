@@ -2,6 +2,22 @@ import { Component, OnInit, Inject } from '@angular/core';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import * as d3 from 'd3';
 
+interface IChartData {
+  GuessAmount: string;
+  Frequency: number;
+}
+
+type guessAmount = {[guessAmount: number]: number} 
+
+const initialChartData: IChartData[] = [
+  {GuessAmount: "1", Frequency: 0},
+  {GuessAmount: "2", Frequency: 0},
+  {GuessAmount: "3", Frequency: 0},
+  {GuessAmount: "4", Frequency: 0},
+  {GuessAmount: "5", Frequency: 0},
+  {GuessAmount: "6", Frequency: 0},
+];
+
 @Component({
   selector: 'app-statistics-dialog',
   templateUrl: './statistics-dialog.component.html',
@@ -10,58 +26,77 @@ import * as d3 from 'd3';
 export class StatisticsDialogComponent implements OnInit {
   public winPercentage!: string;
 
-  private chartData = [
-    {"Amount": "1", "Frequency": "0"},
-    {"Amount": "2", "Frequency": "2"},
-    {"Amount": "3", "Frequency": "1"},
-    {"Amount": "4", "Frequency": "7"},
-    {"Amount": "5", "Frequency": "5"},
-    {"Amount": "6", "Frequency": "6"},
-  ];
+  private chartData: IChartData[] = [];
 
   private svg: any;
-  private margin = 50;
-  private width = 350;
-  private height = 200;
+  private chartMargin = 50;
+  private chartWidth = 350;
+  private chartHeight = 200;
+
+  /** calculated using the largest guess frequency rounded to next number divisible by 10 */
+  private maxYAxisPoint: number = 0;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { 
       gamesPlayed: string, 
       gamesWon: string, 
       winStreak: string, 
-      guessAmountForWin: Object 
+      guessAmountForWin: guessAmount
     }
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data)
-    const calc = Math.round((Number(this.data.gamesWon) / Number(this.data.gamesPlayed)) * 100);
+    const { gamesWon, gamesPlayed, guessAmountForWin } = this.data;
+    const calc = Math.round((Number(gamesWon) / Number(gamesPlayed)) * 100);
 
     this.winPercentage = calc.toString() + "%";
+
+    this.setChartData(guessAmountForWin)
 
     this.createSvg();
     this.drawBars(this.chartData);
   }
 
+  private setChartData(guessAmountForWin: guessAmount) {
+    let maxVal = 0;
+    this.chartData = initialChartData.map(data => {
+      const guessAmount = Number(data.GuessAmount);
+      const guessFrequency = guessAmountForWin[guessAmount];
+
+      // find largest value for display of y-axis in the chart
+      if(guessFrequency > maxVal) maxVal = guessFrequency;
+
+      return {
+        ...data,
+        Frequency: guessFrequency ?? 0
+      };
+    })
+
+    /** sets the last point on the chart's y axis */
+    this.maxYAxisPoint = Math.trunc(maxVal / 10) * 10 + 10;
+  
+    if(this.maxYAxisPoint > 30) this.chartHeight = 300;
+  }
+
   private createSvg(): void {
     this.svg = d3.select("#barchart")
       .append("svg")
-      .attr("width", this.width + (this.margin * 2))
-      .attr("height", this.height + (this.margin * 2))
+      .attr("width", this.chartWidth + (this.chartMargin * 2))
+      .attr("height", this.chartHeight + (this.chartMargin * 2))
       .append("g")
-      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
+      .attr("transform", "translate(" + this.chartMargin + "," + this.chartMargin + ")");
   }
 
   private drawBars(data: any[]): void {
     // Create the X-axis band scale
     const x = d3.scaleBand()
-      .range([0, this.width])
-      .domain(data.map(d => d.Amount))
+      .range([0, this.chartWidth])
+      .domain(data.map(d => d.GuessAmount))
       .padding(0.2);
 
     // Draw the X-axis on the DOM
     this.svg.append("g")
-      .attr("transform", "translate(0," + this.height + ")")
+      .attr("transform", "translate(0," + this.chartHeight + ")")
       .call(d3.axisBottom(x))
       .selectAll("text")
       .attr("transform", "translate(-10,0)rotate(-45)")
@@ -69,8 +104,8 @@ export class StatisticsDialogComponent implements OnInit {
 
     // Create the Y-axis band scale
     const y = d3.scaleLinear()
-      .domain([0, 20])
-      .range([this.height, 0]);
+      .domain([0, this.maxYAxisPoint])
+      .range([this.chartHeight, 0]);
 
     // Draw the Y-axis on the DOM
     this.svg.append("g")
@@ -81,10 +116,10 @@ export class StatisticsDialogComponent implements OnInit {
       .data(data)
       .enter()
       .append("rect")
-      .attr("x", (d: any) => x(d.Amount))
+      .attr("x", (d: any) => x(d.GuessAmount))
       .attr("y", (d: any) => y(d.Frequency))
       .attr("width", x.bandwidth())
-      .attr("height", (d: any) => this.height - y(d.Frequency))
+      .attr("height", (d: any) => this.chartHeight - y(d.Frequency))
       .attr("fill", "#3a3a3c");
   }
 }

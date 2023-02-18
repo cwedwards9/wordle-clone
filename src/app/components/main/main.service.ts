@@ -104,7 +104,7 @@ export class MainService {
         ? guessDistribution[guessAmount] = guessDistribution[guessAmount] + 1 
         : guessDistribution[guessAmount] = 1;
     } else {
-      guessDistribution = guessAmountForWin;
+      guessDistribution = {...guessAmountForWin};
     }
 
     const updatedData = JSON.stringify({
@@ -122,12 +122,13 @@ export class MainService {
   private saveBeforeLeaving() {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
 
-    let { gamesPlayed, gamesWon, winStreak } = wordleData;
+    let { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
 
     const updatedData = JSON.stringify({
       gamesPlayed: gamesPlayed,
       gamesWon: gamesWon,
       winStreak: winStreak,
+      guessAmountForWin: guessAmountForWin,
       currentWord: this.state.currentWord,
       guessedWords: this.state.guessedWordsList
     });

@@ -40,14 +40,21 @@ export class StatisticsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { 
       gamesPlayed: string, 
       gamesWon: string, 
-      winStreak: string, 
+      winStreak: string,
+      maxStreak: string,
       guessAmountForWin: guessAmount
     }
   ) {}
 
   ngOnInit(): void {
-    const { gamesWon, gamesPlayed, guessAmountForWin } = this.data;
-    const calc = Math.round((Number(gamesWon) / Number(gamesPlayed)) * 100);
+    const { gamesWon, gamesPlayed, guessAmountForWin, winStreak, maxStreak } = this.data;
+
+    let calc;
+    if(Number(gamesPlayed) === 0) {
+      calc = 0;
+    } else {
+      calc = Math.round((Number(gamesWon) / Number(gamesPlayed)) * 100);
+    }
 
     this.winPercentage = calc.toString() + "%";
 

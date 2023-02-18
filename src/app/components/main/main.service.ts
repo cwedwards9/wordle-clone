@@ -78,6 +78,7 @@ export class MainService {
       gamesPlayed: 0,
       gamesWon: 0,
       winStreak: 0,
+      maxStreak: 0,
       guessAmountForWin: {},
       currentWord: this.state.currentWord,
       guessedWords: []
@@ -92,7 +93,7 @@ export class MainService {
   private submitGame(gameWon: boolean, guessAmount: number) {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
 
-    let { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
+    let { gamesPlayed, gamesWon, winStreak, maxStreak, guessAmountForWin } = wordleData;
 
     let guessDistribution;
 
@@ -111,6 +112,7 @@ export class MainService {
       gamesPlayed: gamesPlayed + 1,
       gamesWon: gameWon ? gamesWon + 1 : gamesWon,
       winStreak: gameWon ? winStreak + 1 : 0,
+      maxStreak: (gameWon && winStreak + 1 > maxStreak) ? winStreak + 1 : maxStreak, 
       guessAmountForWin: guessDistribution,
       currentWord: this.state.currentWord,
       guessedWords: this.state.guessedWordsList
@@ -122,12 +124,13 @@ export class MainService {
   private saveBeforeLeaving() {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
 
-    let { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
+    let { gamesPlayed, gamesWon, winStreak, maxStreak, guessAmountForWin } = wordleData;
 
     const updatedData = JSON.stringify({
       gamesPlayed: gamesPlayed,
       gamesWon: gamesWon,
       winStreak: winStreak,
+      maxStreak: maxStreak,
       guessAmountForWin: guessAmountForWin,
       currentWord: this.state.currentWord,
       guessedWords: this.state.guessedWordsList
@@ -277,7 +280,7 @@ export class MainService {
 
   private openStatsDialog(): void {
     const wordleData = JSON.parse(localStorage.getItem("wordleData") as string);
-    const { gamesPlayed, gamesWon, winStreak, guessAmountForWin } = wordleData;
+    const { gamesPlayed, gamesWon, winStreak, maxStreak, guessAmountForWin } = wordleData;
 
     this.dialog.open(StatisticsDialogComponent, {
       position: {
@@ -288,6 +291,7 @@ export class MainService {
         gamesPlayed: gamesPlayed,
         gamesWon: gamesWon,
         winStreak: winStreak,
+        maxStreak: maxStreak,
         guessAmountForWin: guessAmountForWin
       }
     })

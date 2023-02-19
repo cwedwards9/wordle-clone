@@ -249,6 +249,15 @@ export class MainService {
     const { guessedWord, currentWord, currentRow, guessedWordsList } = this.state
 
     if(guessedWord.length !== GameRules.WordLength) return;
+
+    const validWord = wordBank.includes(guessedWord);
+    if(!validWord) {
+      this.snackbar.open("Not in word list", "Close", {
+        panelClass: ["game-result-notif"]
+      });
+
+      return;
+    };
     
     const gameResult = guessedWord === currentWord;
     const guessAttemptNum = currentRow + 1;

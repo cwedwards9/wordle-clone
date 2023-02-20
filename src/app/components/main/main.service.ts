@@ -253,7 +253,8 @@ export class MainService {
     const validWord = wordBank.includes(guessedWord);
     if(!validWord) {
       this.snackbar.open("Not in word list", "Close", {
-        panelClass: ["game-result-notif"]
+        panelClass: ["game-result-notif"],
+        duration: 8000
       });
 
       return;
@@ -308,13 +309,14 @@ export class MainService {
 
   private openSnackbar(result: boolean, word: string): void {
     let message = result ? 
-      `Correct! You correctly guessed the word ${word}` : 
-      `Sorry, you did not guess the correct word, ${word}`;
+      `Correct! You correctly guessed the word, ${word.toUpperCase()}` : 
+      `Sorry, you did not guess the correct word, ${word.toUpperCase()}`;
 
     const resultClassName = result ? "correct-guess" : "incorrect-guess";
 
     this.snackbar.open(message, "Close", {
-      panelClass: ["game-result-notif", resultClassName]
+      panelClass: ["game-result-notif", resultClassName],
+      duration: 8000
     });
   }
 

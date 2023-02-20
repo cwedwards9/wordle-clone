@@ -12,7 +12,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 // override default snackbar styles
 .mat-snack-bar-container.game-result-notif {
-    max-width: 50vw;
+    max-width: 55vw;
+    margin-bottom: 2rem;
 
     &.correct-guess {
         color: variables.$green-correct;

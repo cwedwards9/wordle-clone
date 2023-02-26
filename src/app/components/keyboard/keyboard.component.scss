@@ -18,6 +18,10 @@
         &:hover {
             background-color: lighten(variables.$main-gray, 5%);
         }
+
+        &-container {
+            margin: 1px;
+        }
     }
 
 }

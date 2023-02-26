@@ -1,6 +1,8 @@
 <div class="keyboard">
     <key *ngFor="let key of keyList" [key]="key" (keyClick)="keyClick($event)"></key>
-    <button class="backspace-btn" (click)="backspaceClick()">
-        <mat-icon svgIcon="backspace" aria-label="Settings"></mat-icon>
-    </button>
+    <div class="backspace-btn-container">
+        <button class="backspace-btn" (click)="backspaceClick()">
+            <mat-icon svgIcon="backspace" aria-label="Settings"></mat-icon>
+        </button>
+    </div>
 </div>

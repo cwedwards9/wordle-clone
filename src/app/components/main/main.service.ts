@@ -26,8 +26,6 @@ enum GameRules {
   RowAmount = 6
 }
 
-const wordSet = new Set();
-
 @Injectable({
   providedIn: 'root'
 })
@@ -54,6 +52,7 @@ export class MainService {
   )
 
   readonly currentWord$ = this._state$.pipe(
+    filter((state) => !!state.currentWord),
     map(state => state.currentWord)
   )
 
@@ -71,6 +70,8 @@ export class MainService {
    private loadConfig() {
     const wordleData = localStorage.getItem("wordleData");
     if(!!wordleData) return;
+
+    localStorage.setItem("usedWordsList", JSON.stringify([]))
 
     this.generateWord();
 
@@ -158,13 +159,18 @@ export class MainService {
   }
 
   private generateWord() {
-    // if there is nothing, generate a word
     const word = wordBank[Math.floor(Math.random() * wordBank.length)];
 
-    if(wordSet.has(word)) {
+    const usedWordsList = JSON.parse(localStorage.getItem("usedWordsList") as string);
+
+    if(usedWordsList.includes(word)) {
       this.generateWord();
     } else {
-      wordSet.add(word);
+      // update used words list in local storage with new word
+      const updatedUsedWordsList = JSON.stringify([...usedWordsList, word])
+      localStorage.setItem("usedWordsList", updatedUsedWordsList);
+
+      // update state with new word
       this.updateCurrentWord(word);
     }
   }

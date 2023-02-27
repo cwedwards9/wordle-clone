@@ -23,6 +23,7 @@ export class GridTileComponent implements OnInit {
   constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
+    // get the tile letter for the correct tile in the correct row
     this.guessedWordsList$.pipe(
       map((words) => {
         return words.filter((word, idx) => {
@@ -48,7 +49,7 @@ export class GridTileComponent implements OnInit {
       else this.letterStatus = "";
     })
 
-
+    // update the tile letter when we enter a new letter for our currently guessed word
     combineLatest([this.currentRow$, this.guessedWord$]).pipe(map(([currentRow, guessedWord]) => {
       if(currentRow === this.rowNum) {
         this.tileLetter = guessedWord[this.tileNum]

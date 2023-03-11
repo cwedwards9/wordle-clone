@@ -27,3 +27,17 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         color: white;
     }
 }
+
+// override default backdrop for mat drawer
+.mat-drawer-backdrop.mat-drawer-shown {
+    background-color: transparent;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+        list-style-type: none;
+    }
+}

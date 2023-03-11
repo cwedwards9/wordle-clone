@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TutorialDialogComponent } from "../tutorial-dialog/tutorial-dialog.component";
 import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
@@ -12,6 +12,7 @@ import { MainService } from '../main/main.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  @Output() sideNavClick = new EventEmitter();
 
   constructor(
     private mainService: MainService,
@@ -49,5 +50,9 @@ export class NavbarComponent implements OnInit {
 
   public openStatsDialog() {
     this.mainService.openStatisticsDialog();
+  }
+
+  public openSideNav() {
+    this.sideNavClick.emit();
   }
 }

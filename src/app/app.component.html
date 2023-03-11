@@ -1,20 +1,7 @@
 <navbar (sideNavClick)="toggleSideNav()"></navbar>
 <mat-sidenav-container class="example-container">
-    <mat-sidenav class="side-nav" [(opened)]="opened">
-        <div class="side-nav-title">
-            <h2>Wordle</h2>
-            <span class="unlimited-text">Unlimited</span>
-        </div>
-        <div class="side-nav-links">
-            <ul>
-                <li>
-                    <a>Play the Original Wordle</a>
-                </li>
-                <li>
-                    <a>Wordle - Country Edition</a>
-                </li>
-            </ul>
-        </div>
+    <mat-sidenav class="side-nav" [(opened)]="opened">    
+        <side-nav></side-nav>
     </mat-sidenav>
     <mat-sidenav-content>
         <main></main>

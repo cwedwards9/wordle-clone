@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TutorialDialogComponent } from "../tutorial-dialog/tutorial-dialog.component";
-import { StatisticsDialogComponent } from '../statistics-dialog/statistics-dialog.component';
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MainService } from '../main/main.service';

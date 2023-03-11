@@ -12,7 +12,7 @@
         <span class="unlimited-text">Unlimited</span>
     </div>
     <div class="nav-right-side">
-        <button mat-icon-button aria-label="Button with settings cog icon">
+        <button (click)="openSettingsDialog()" mat-icon-button aria-label="Button with settings cog icon">
             <mat-icon svgIcon="settings"></mat-icon>
         </button>
         <button (click)="openStatsDialog()" mat-icon-button aria-label="Button with bar chart for statistics">

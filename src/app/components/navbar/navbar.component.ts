@@ -4,6 +4,7 @@ import { TutorialDialogComponent } from "../tutorial-dialog/tutorial-dialog.comp
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
 import { MainService } from '../main/main.service';
+import { SettingsDialogComponent } from '../settings-dialog/settings-dialog.component';
 
 @Component({
   selector: 'navbar',
@@ -49,6 +50,15 @@ export class NavbarComponent implements OnInit {
 
   public openStatsDialog() {
     this.mainService.openStatisticsDialog();
+  }
+
+  public openSettingsDialog() {
+    this.dialog.open(SettingsDialogComponent, {
+      position: {
+        top: "50px"
+      },
+      maxHeight: "calc(100vh - 75px)"
+    })
   }
 
   public openSideNav() {

@@ -24,6 +24,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
     TutorialDialogComponent,
     GridRowExampleComponent,
     StatisticsDialogComponent,
-    SideNavComponent
+    SideNavComponent,
+    SettingsDialogComponent
   ],
   imports: [
     BrowserModule,

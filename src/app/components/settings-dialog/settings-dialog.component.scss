@@ -1,0 +1,65 @@
+@use "variables";
+
+.settings-dialog {
+    width: 500px;
+    background-color: variables.$main-bg-color;
+    color: variables.$main-text-white;
+
+    p {
+        font-size: 0.90rem;
+        margin-bottom: 1rem;
+
+        &:last-child {
+            margin-top: 1rem;
+        }
+    }
+
+    .mat-divider {
+        border-top-color: variables.$main-text-white;
+    }
+
+    p.copyright {
+        margin: 2rem 0 0;
+    }
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    .settings-title {
+        font-size: 1rem;
+        font-weight: 700;
+    }
+
+    .close-settings-btn  {
+        background-color: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        
+        mat-icon {
+            color: variables.$main-text-white;
+            height: 24px;
+            width: 24px;
+        }
+    }
+    
+    .placeholder {
+        height: 24px;
+        width: 24px;
+    }
+}
+
+.settings-content {
+    
+    .settings-item {
+        h3 {
+            font-size: 18px;
+            font-weight: 400;
+            padding: 1.25rem 0;
+        }
+    }
+}

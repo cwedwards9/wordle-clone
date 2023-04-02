@@ -12,6 +12,8 @@ import { KeyComponent } from './components/key/key.component';
 import { TutorialDialogComponent } from './components/tutorial-dialog/tutorial-dialog.component';
 import { GridRowExampleComponent } from './components/tutorial-dialog/grid-row-example/grid-row-example/grid-row-example.component';
 import { StatisticsDialogComponent } from './components/statistics-dialog/statistics-dialog.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
 
 // MODULES
 import { BrowserModule } from '@angular/platform-browser';
@@ -23,8 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SideNavComponent } from './components/side-nav/side-nav.component';
-import { SettingsDialogComponent } from './components/settings-dialog/settings-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { SettingsDialogComponent } from './components/settings-dialog/settings-d
     MatDialogModule,
     MatDividerModule,
     MatSnackBarModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

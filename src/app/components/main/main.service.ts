@@ -213,6 +213,23 @@ export class MainService {
     this.openStatsDialog();
   }
 
+  /**
+   * completely resets the user's stats
+   */
+  public resetStats() {
+    // reset state
+    this.resetState();
+    
+    // configure new game with new local storage data
+    this.loadConfig();
+    this.generateGame();
+
+    this.snackbar.open("Your game was reset!", "Close", {
+      panelClass: ["game-result-notif"],
+      duration: 8000
+    });
+  }
+
 
   /**
    * add a letter to the user's guessed word

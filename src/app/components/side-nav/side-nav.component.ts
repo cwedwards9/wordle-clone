@@ -8,6 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./side-nav.component.scss']
 })
 export class SideNavComponent implements OnInit {
+  public year!: number;
 
   constructor(
     private matIconRegistry: MatIconRegistry, 
@@ -21,6 +22,9 @@ export class SideNavComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    const date = new Date();
+
+    this.year = date.getFullYear();
   }
 
 }

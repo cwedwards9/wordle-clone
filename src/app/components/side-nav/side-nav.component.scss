@@ -1,5 +1,12 @@
 @import "variables.scss";
 
+.side-nav {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .side-nav-title {
     display: flex;
     align-items: center;

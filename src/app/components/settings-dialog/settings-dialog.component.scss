@@ -54,12 +54,25 @@
 }
 
 .settings-content {
-    
     .settings-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid variables.$main-gray;
+        
         h3 {
             font-size: 18px;
             font-weight: 400;
             padding: 1.25rem 0;
+        }
+
+        a {
+            color: lighten(variables.$main-text-white, 30%);
+            text-decoration: none;
+        }
+
+        button {
+            border-color: variables.$main-text-white;
         }
     }
 }

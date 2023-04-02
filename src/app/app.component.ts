@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public opened: boolean = true;
+  public opened: boolean = false;
 
   public toggleSideNav() {
     this.opened = !this.opened;

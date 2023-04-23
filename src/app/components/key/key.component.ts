@@ -30,31 +30,42 @@ export class KeyComponent implements OnInit {
     combineLatest(this.currentWord$, this.guessedWordsList$).pipe(
       map(([word, guessedList]) => {
         const key = this.key.toLowerCase();
-        console.log(key)
-        console.log(guessedList)
         const containsLetter = guessedList.some(guessedWord => guessedWord.includes(key));
-        // the key is 'enter' or hasn't been used in a guess, it is an unused status
+
+        // the key is 'enter' or hasn't been used in a guess, it has an unused status
         if(key === "enter" || !containsLetter) return ButtonColors.greyUnused;
 
-        // if the letter/key has been used in a guess but isn't in the word, it gets an incorrect status
+        // if the key has been used in a guess but isn't in the word, it gets an incorrect status
         if(!word.includes(key)) return ButtonColors.greyIncorrect;
 
-        // by this point, the letter has been used at least once, find the index the letter/key is in
-        const correctIndexLetter = guessedList.map(guessedWord => {
-          return guessedWord.indexOf(key)
-        }).filter(idx => idx !== -1).some(idx => {
-          console.log(idx)
-           return key === word[idx]
-        })
-        console.log(correctIndexLetter)
+        // look thru each guessed word and find where the key has been used and if it is in the correct spot
+        const correctIndex = guessedList
+          .map(guessedWord => {
+            // find all indices that contain the key
+            const indices = [];
+            const wordArray = guessedWord.split("");
 
-        if(correctIndexLetter) return ButtonColors.greenCorrect;
+            let idx = guessedWord.indexOf(key)
+            while(idx !== -1) {
+              indices.push(idx);
+              idx = wordArray.indexOf(key, idx + 1);
+            }
+
+            return indices;
+          })
+          .flat()
+          .filter(idx => idx !== -1)
+          .some(idx => {
+            return key === word[idx]
+          })
+
+        // if an instance of the key is in the correct spot in the word, return the correct status
+        if(correctIndex) return ButtonColors.greenCorrect;
         
-
+        // if none of the key instances are in the correct spot (but in the word), return close status
         return ButtonColors.yellowClose;
       })
     ).subscribe((res) => {
-      console.log(res)
       this.bgColor = res;
     })
   }

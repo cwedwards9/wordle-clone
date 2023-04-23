@@ -3,6 +3,7 @@ import { MainService } from '../main/main.service';
 import { Observable, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/** colors used in variables.scss - for game guess status */
 enum ButtonColors {
   greenCorrect = "#6aaa64",
   yellowClose = "#c9b458",
@@ -22,12 +23,12 @@ export class KeyComponent implements OnInit {
   currentWord$ = this.mainService.currentWord$
   guessedWordsList$ = this.mainService.guessedWordsList$
 
-  bgColor!: string;
+  bgColor$!: Observable<ButtonColors>;
 
   constructor(private mainService: MainService) { }
 
   ngOnInit(): void {
-    combineLatest(this.currentWord$, this.guessedWordsList$).pipe(
+    this.bgColor$ = combineLatest(this.currentWord$, this.guessedWordsList$).pipe(
       map(([word, guessedList]) => {
         const key = this.key.toLowerCase();
         const containsLetter = guessedList.some(guessedWord => guessedWord.includes(key));
@@ -45,7 +46,7 @@ export class KeyComponent implements OnInit {
             const indices = [];
             const wordArray = guessedWord.split("");
 
-            let idx = guessedWord.indexOf(key)
+            let idx = guessedWord.indexOf(key);
             while(idx !== -1) {
               indices.push(idx);
               idx = wordArray.indexOf(key, idx + 1);
@@ -56,7 +57,7 @@ export class KeyComponent implements OnInit {
           .flat()
           .filter(idx => idx !== -1)
           .some(idx => {
-            return key === word[idx]
+            return key === word[idx];
           })
 
         // if an instance of the key is in the correct spot in the word, return the correct status
@@ -65,9 +66,7 @@ export class KeyComponent implements OnInit {
         // if none of the key instances are in the correct spot (but in the word), return close status
         return ButtonColors.yellowClose;
       })
-    ).subscribe((res) => {
-      this.bgColor = res;
-    })
+    )
   }
 
   onClick() {

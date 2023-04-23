@@ -4,23 +4,24 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 475px;
+    width: 490px;
     margin: 0 auto;
 
     .backspace-btn {
         width: 4rem;
         height: 3.75rem;
-        background-color: variables.$main-gray;
+        background-color: variables.$key-bg;
         color: variables.$main-text-white;
+        border: none;
         border-radius: 4px;
         cursor: pointer;
 
         &:hover {
-            background-color: lighten(variables.$main-gray, 5%);
+            background-color: lighten(variables.$key-bg, 10%);
         }
 
         &-container {
-            margin: 1px;
+            margin: 2px;
         }
     }
 
@@ -28,7 +29,7 @@
 
 @media screen and (min-height: variables.$breakpoint-height) {
     .keyboard {
-        width: 600px;
+        width: 625px;
     
         .backspace-btn {
             width: 5.75rem;
